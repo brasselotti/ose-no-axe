@@ -1,1 +1,1 @@
-web: gunicorn osenoaxe.wsgi
+web: python manage.py collectstatic --noinput && gunicorn osenoaxe.wsgi
