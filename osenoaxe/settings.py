@@ -167,4 +167,6 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+STATICFILES_DIRS = []
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
