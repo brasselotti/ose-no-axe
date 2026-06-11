@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block title %}Mensalidades - Ilê Axé Afinká{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Mensalidades</h2>
+    <a href="/mensalidades/registrar/" class="btn btn-dark">
+        <i class="bi bi-plus-circle"></i> Registrar Pagamento
+    </a>
+</div>
+
+{% if not request.user.eh_administrador %}
+{% if pendentes %}
+<div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle"></i>
+    <strong>ATENÇÃO!</strong> Você possui mensalidades em aberto!
+</div>
+{% endif %}
+{% endif %}
+
+{% if request.user.eh_administrador %}
+<!-- Filtro por filho -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <form method="get">
+            <div class="input-group">
+                <input type="text" name="filho" class="form-control"
+                    placeholder="Filtrar por nome do filho..."
+                    value="{{ filtro_filho }}">
+                <button type="submit" class="btn btn-dark">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+                {% if filtro_filho %}
+                <a href="/mensalidades/" class="btn btn-outline-secondary">
+                    <i class="bi bi-x"></i> Limpar
+                </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+<!-- Mensalidades Pendentes -->
+<div class="card shadow mb-4">
+    <div class="card-header bg-warning text-dark">
+        <i class="bi bi-hourglass-split"></i> Aguardando Aprovação
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    {% if request.user.eh_administrador %}<th>Filho</th>{% endif %}
+                    <th>Mês de Referência</th>
+                    <th>Valor</th>
+                    <th>Comprovante</th>
+                    <th>Data Pagamento</th>
+                    {% if request.user.eh_administrador %}<th>Ações</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in pendentes %}
+                <tr>
+                    {% if request.user.eh_administrador %}<td>{{ m.filho.nome }}</td>{% endif %}
+                    <td>{{ m.mes_referencia|date:"m/Y" }}</td>
+                    <td>R$ {{ m.valor }}</td>
+                    <td>
+                        {% if m.comprovante %}
+                        <a href="{{ m.comprovante.url }}" target="_blank" class="btn btn-sm btn-outline-dark">
+                            <i class="bi bi-file-earmark"></i> Ver
+                        </a>
+                        {% else %}
+                        <span class="text-muted">—</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ m.data_pagamento|date:"d/m/Y"|default:"—" }}</td>
+                    {% if request.user.eh_administrador %}
+                    <td>
+                        <a href="/mensalidades/{{ m.pk }}/aprovar/" class="btn btn-sm btn-success">
+                            <i class="bi bi-check-lg"></i> Aprovar
+                        </a>
+                        <a href="/mensalidades/{{ m.pk }}/negar/" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Tem certeza que deseja recusar esta solicitação?')">
+                            <i class="bi bi-x-lg"></i> Negar
+                        </a>
+                        <a href="/mensalidades/{{ m.pk }}/excluir/"
+                            class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Tem certeza que deseja excluir este registro?')">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">Nenhuma mensalidade pendente.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Mensalidades Aprovadas -->
+<div class="card shadow mb-4">
+    <div class="card-header bg-success text-white">
+        <i class="bi bi-check-circle"></i> Pagamentos Confirmados
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    {% if request.user.eh_administrador %}<th>Filho</th>{% endif %}
+                    <th>Mês de Referência</th>
+                    <th>Valor</th>
+                    <th>Comprovante</th>
+                    <th>Data Pagamento</th>
+                    {% if request.user.eh_administrador %}<th>Ações</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in pagas %}
+                <tr>
+                    {% if request.user.eh_administrador %}<td>{{ m.filho.nome }}</td>{% endif %}
+                    <td>{{ m.mes_referencia|date:"m/Y" }}</td>
+                    <td>R$ {{ m.valor }}</td>
+                    <td>
+                        {% if m.comprovante %}
+                        <a href="{{ m.comprovante.url }}" target="_blank" class="btn btn-sm btn-outline-dark">
+                            <i class="bi bi-file-earmark"></i> Ver
+                        </a>
+                        {% else %}
+                        <span class="text-muted">—</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ m.data_pagamento|date:"d/m/Y"|default:"—" }}</td>
+                    {% if request.user.eh_administrador %}
+                    <td>
+                        <a href="/mensalidades/{{ m.pk }}/excluir/"
+                            class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Tem certeza que deseja excluir este registro?')">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">Nenhum pagamento confirmado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Mensalidades Recusadas -->
+<div class="card shadow mb-4">
+    <div class="card-header bg-danger text-white">
+        <i class="bi bi-x-circle"></i> Solicitações Recusadas
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    {% if request.user.eh_administrador %}<th>Filho</th>{% endif %}
+                    <th>Mês de Referência</th>
+                    <th>Valor</th>
+                    <th>Comprovante</th>
+                    <th>Data Pagamento</th>
+                    {% if request.user.eh_administrador %}<th>Ações</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in recusadas %}
+                <tr>
+                    {% if request.user.eh_administrador %}<td>{{ m.filho.nome }}</td>{% endif %}
+                    <td>{{ m.mes_referencia|date:"m/Y" }}</td>
+                    <td>R$ {{ m.valor }}</td>
+                    <td>
+                        {% if m.comprovante %}
+                        <a href="{{ m.comprovante.url }}" target="_blank" class="btn btn-sm btn-outline-dark">
+                            <i class="bi bi-file-earmark"></i> Ver
+                        </a>
+                        {% else %}
+                        <span class="text-muted">—</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ m.data_pagamento|date:"d/m/Y"|default:"—" }}</td>
+                    {% if request.user.eh_administrador %}
+                    <td>
+                        <a href="/mensalidades/{{ m.pk }}/excluir/"
+                            class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Tem certeza que deseja excluir este registro?')">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">Nenhuma solicitação recusada.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

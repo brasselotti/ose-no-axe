@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ acao }} Filho - Ilê Axé Afinká{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ acao }} Filho</h2>
+    <a href="/filhos/" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    <!-- Identificação -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-dark text-white">
+            <i class="bi bi-person"></i> Identificação
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Nome Completo</label>
+                    <input type="text" name="nome" class="form-control"
+                        value="{{ filho.nome|default:'' }}" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Usuário (login)</label>
+                    <input type="text" name="username" class="form-control"
+                        value="{{ filho.username|default:'' }}" {% if acao == 'Editar' %}readonly{% endif %} required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">
+                        Senha {% if acao == 'Editar' %}<small class="text-muted">(deixe em branco para não alterar)</small>{% endif %}
+                    </label>
+                    <div class="input-group">
+                        <input type="password" name="password" id="senha" class="form-control"
+                            {% if acao == 'Cadastrar' %}required{% endif %}>
+                        <button type="button" class="btn btn-outline-secondary" onclick="toggleSenha()">
+                            <i class="bi bi-eye" id="icone-senha"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Telefone</label>
+                    <input type="text" name="telefone" class="form-control"
+                        value="{{ filho.telefone|default:'' }}">
+                </div>
+                <div class="col-md-6 mb-3 d-flex align-items-end">
+                    <div class="form-check">
+                        <input type="checkbox" name="eh_administrador" class="form-check-input"
+                            id="eh_administrador" {% if filho.eh_administrador %}checked{% endif %}
+                            {% if not request.user.eh_administrador %}disabled{% endif %}>
+                        <label class="form-check-label" for="eh_administrador">Conta de Administrador</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Endereço -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-dark text-white">
+            <i class="bi bi-geo-alt"></i> Endereço
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Endereço</label>
+                    <input type="text" name="endereco" class="form-control"
+                        value="{{ filho.endereco|default:'' }}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Bairro</label>
+                    <input type="text" name="bairro" class="form-control"
+                        value="{{ filho.bairro|default:'' }}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Cidade</label>
+                    <input type="text" name="cidade" class="form-control"
+                        value="{{ filho.cidade|default:'' }}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">CEP</label>
+                    <input type="text" name="cep" class="form-control"
+                        value="{{ filho.cep|default:'' }}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Informações do Médium -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-dark text-white">
+            <i class="bi bi-stars"></i> Informações do Médium
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Data de Nascimento</label>
+                    <input type="date" name="data_nascimento" class="form-control"
+                        value="{{ filho.data_nascimento|date:'Y-m-d'|default:'' }}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Data de Bori</label>
+                    <input type="date" name="data_bori" class="form-control"
+                        value="{{ filho.data_bori|date:'Y-m-d'|default:'' }}">
+                </div>
+                <div class="col-md-4 mb-3 d-flex align-items-end">
+                    <div class="form-check">
+                        <input type="checkbox" name="filho_iniciado" class="form-check-input"
+                            id="filho_iniciado" {{ filho.filho_iniciado|yesno:"checked,," }}
+                            onchange="toggleIniciacao()">
+                        <label class="form-check-label" for="filho_iniciado">Filho Iniciado?</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dados da Iniciação -->
+            <div id="dados-iniciacao" {% if not filho.filho_iniciado %}style="display:none"{% endif %}>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Data de Iniciação</label>
+                        <input type="date" name="data_iniciacao" class="form-control"
+                            value="{{ filho.data_iniciacao|date:'Y-m-d'|default:'' }}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Ordem / Posto</label>
+                        <input type="text" name="ordem_posto" class="form-control"
+                            value="{{ filho.ordem_posto|default:'' }}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Orixá</label>
+                        <input type="text" name="orixa" class="form-control"
+                            value="{{ filho.orixa|default:'' }}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Orunkó</label>
+                        <div class="input-group">
+                            <input type="password" name="orunko" id="orunko" class="form-control"
+                                value="{{ filho.orunko|default:'' }}">
+                            <button type="button" class="btn btn-outline-secondary" onclick="toggleOrunko()">
+                                <i class="bi bi-eye" id="icone-orunko"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Nome do Erê</label>
+                        <input type="text" name="nome_ere" class="form-control"
+                            value="{{ filho.nome_ere|default:'' }}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Madrinha / Padrinho</label>
+                        <input type="text" name="madrinha_padrinho" class="form-control"
+                            value="{{ filho.madrinha_padrinho|default:'' }}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Mãe / Pai Pequeno(a)</label>
+                        <input type="text" name="mae_pai_pequeno" class="form-control"
+                            value="{{ filho.mae_pai_pequeno|default:'' }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between mb-5">
+        {% if acao == 'Editar' and request.user.eh_administrador %}
+        <a href="/filhos/{{ filho.pk }}/excluir/" class="btn btn-danger"
+            onclick="return confirm('Tem certeza que deseja excluir este filho?')">
+            <i class="bi bi-trash"></i> Excluir Filho
+        </a>
+        {% else %}
+        <div></div>
+        {% endif %}
+        <button type="submit" class="btn btn-dark">
+            <i class="bi bi-check-lg"></i> {{ acao }}
+        </button>
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function toggleSenha() {
+        const campo = document.getElementById('senha');
+        const icone = document.getElementById('icone-senha');
+        if (campo.type === 'password') {
+            campo.type = 'text';
+            icone.className = 'bi bi-eye-slash';
+        } else {
+            campo.type = 'password';
+            icone.className = 'bi bi-eye';
+        }
+    }
+
+    function toggleOrunko() {
+        const campo = document.getElementById('orunko');
+        const icone = document.getElementById('icone-orunko');
+        if (campo.type === 'password') {
+            campo.type = 'text';
+            icone.className = 'bi bi-eye-slash';
+        } else {
+            campo.type = 'password';
+            icone.className = 'bi bi-eye';
+        }
+    }
+
+    function toggleIniciacao() {
+        const checkbox = document.getElementById('filho_iniciado');
+        const div = document.getElementById('dados-iniciacao');
+        div.style.display = checkbox.checked ? '' : 'none';
+    }
+</script>
+{% endblock %}

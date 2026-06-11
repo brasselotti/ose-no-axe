@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrar Movimentação - Ilê Axé Afinká{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Registrar Movimentação</h2>
+    <a href="/financeiro/" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Tipo</label>
+                    <div class="d-flex gap-3">
+                        <div class="form-check">
+                            <input type="radio" name="tipo" value="entrada"
+                                class="form-check-input" id="entrada" required>
+                            <label class="form-check-label text-success fw-bold" for="entrada">
+                                <i class="bi bi-arrow-up-circle"></i> Entrada
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" name="tipo" value="saida"
+                                class="form-check-input" id="saida">
+                            <label class="form-check-label text-danger fw-bold" for="saida">
+                                <i class="bi bi-arrow-down-circle"></i> Saída
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Valor (R$)</label>
+                    <input type="text" name="valor" id="valor"
+                        class="form-control" placeholder="R$ 0,00" required>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Data</label>
+                    <input type="date" name="data" class="form-control" required>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Descrição</label>
+                    <input type="text" name="descricao" class="form-control" required>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Observação <small class="text-muted">(opcional)</small></label>
+                    <textarea name="observacao" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-dark">
+                    <i class="bi bi-check-lg"></i> Registrar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('valor').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+        value = (parseInt(value) / 100).toFixed(2);
+        e.target.value = 'R$ ' + value.replace('.', ',');
+    });
+
+    document.querySelector('form').addEventListener('submit', function () {
+        const campo = document.getElementById('valor');
+        const limpo = campo.value.replace('R$ ', '').replace(',', '.');
+        campo.value = limpo;
+    });
+</script>
+{% endblock %}

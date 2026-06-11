@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Finanças - Ilê Axé Afinká{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Finanças</h2>
+    {% if request.user.eh_administrador %}
+    <a href="/financeiro/registrar/" class="btn btn-dark">
+        <i class="bi bi-plus-circle"></i> Registrar Movimentação
+    </a>
+    {% endif %}
+</div>
+
+<!-- Cards de saldo -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h6 class="text-muted">Saldo em Caixa</h6>
+                <h3 class="{% if saldo >= 0 %}text-success{% else %}text-danger{% endif %}">
+                    R$ {{ saldo|floatformat:2 }}
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h6 class="text-muted">Total de Entradas</h6>
+                <h3 class="text-success">R$ {{ entradas|floatformat:2 }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h6 class="text-muted">Total de Saídas</h6>
+                <h3 class="text-danger">R$ {{ saidas|floatformat:2 }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabela de movimentações -->
+<div class="card shadow">
+    <div class="card-header bg-dark text-white">
+        <i class="bi bi-clock-history"></i> Histórico de Movimentações
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Observação</th>
+                    {% if request.user.eh_administrador %}
+                    <th>Ações</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in movimentacoes %}
+                <tr>
+                    <td>{{ m.data|date:"d/m/Y" }}</td>
+                    <td>{{ m.descricao }}</td>
+                    <td>
+                        {% if m.tipo == 'entrada' %}
+                        <span class="badge bg-success">Entrada</span>
+                        {% else %}
+                        <span class="badge bg-danger">Saída</span>
+                        {% endif %}
+                    </td>
+                    <td class="{% if m.tipo == 'entrada' %}text-success{% else %}text-danger{% endif %}">
+                        R$ {{ m.valor|floatformat:2 }}
+                    </td>
+                    <td>{{ m.observacao|default:"—" }}</td>
+                    {% if request.user.eh_administrador %}
+                    <td>
+                        <a href="/financeiro/{{ m.pk }}/excluir/"
+                            class="btn btn-sm btn-danger"
+                            onclick="return confirm('Tem certeza que deseja excluir esta movimentação?')">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">Nenhuma movimentação registrada.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

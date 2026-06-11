@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Filhos Cadastrados - Ilê Axé Afinká{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Filhos Cadastrados</h2>
+    <a href="/filhos/cadastrar/" class="btn btn-dark">
+        <i class="bi bi-person-plus"></i> Cadastrar Filho
+    </a>
+</div>
+
+<!-- Busca -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <input type="text" id="busca" class="form-control" placeholder="Buscar por nome...">
+    </div>
+</div>
+
+<!-- Cards -->
+<div class="row" id="lista-filhos">
+    {% for filho in filhos %}
+    <div class="col-md-4 mb-4 card-filho" data-nome="{{ filho.nome|lower }}">
+        <div class="card shadow h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center me-3"
+                        style="width:50px; height:50px;">
+                        <i class="bi bi-person text-white fs-4"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0">{{ filho.nome }}</h6>
+                        <small class="text-muted">{{ filho.orixa|default:"Orixá não informado" }}</small>
+                    </div>
+                </div>
+                <p class="mb-1"><i class="bi bi-telephone"></i> {{ filho.telefone|default:"—" }}</p>
+                <p class="mb-1"><i class="bi bi-geo-alt"></i> {{ filho.cidade|default:"—" }}</p>
+                <p class="mb-0">
+                    {% if filho.filho_iniciado %}
+                    <span class="badge bg-success">Iniciado</span>
+                    {% else %}
+                    <span class="badge bg-secondary">Não iniciado</span>
+                    {% endif %}
+                    {% if filho.eh_administrador %}
+                    <span class="badge bg-dark">ADM</span>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <small class="text-muted">{{ filho.username }}</small>
+                <a href="/filhos/{{ filho.pk }}/editar/" class="btn btn-sm btn-dark">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p class="text-muted">Nenhum filho cadastrado ainda.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('busca').addEventListener('input', function () {
+        const termo = this.value.toLowerCase();
+        document.querySelectorAll('.card-filho').forEach(function (card) {
+            card.style.display = card.dataset.nome.includes(termo) ? '' : 'none';
+        });
+    });
+</script>
+{% endblock %}
