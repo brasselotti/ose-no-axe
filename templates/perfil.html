@@ -149,7 +149,23 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://unpkg.com/imask"></script>
 <script>
+    IMask(document.querySelector('input[name="telefone"]'), {
+        mask: [
+            { mask: '(00) 0000-0000' },
+            { mask: '(00) 00000-0000' }
+        ],
+        dispatch: function(appended, dynamicMasked) {
+            const digits = (dynamicMasked.value + appended).replace(/\D/g, '');
+            return dynamicMasked.compiledMasks[digits.length > 10 ? 1 : 0];
+        }
+    });
+
+    IMask(document.querySelector('input[name="cep"]'), {
+        mask: '00.000-000'
+    });
+
     function toggleSenha() {
         const campo = document.getElementById('senha');
         const icone = document.getElementById('icone-senha');
