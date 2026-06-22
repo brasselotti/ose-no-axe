@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Usuário (login)</label>
-                    <input type="text" name="username" class="form-control"
+                    <input type="text" name="username" class="form-control" autocomplete="username"
                         value="{{ filho.username|default:'' }}" {% if acao == 'Editar' %}readonly{% endif %} required>
                 </div>
                 <div class="col-md-6 mb-3">
@@ -35,7 +35,7 @@
                         Senha {% if acao == 'Editar' %}<small class="text-muted">(deixe em branco para não alterar)</small>{% endif %}
                     </label>
                     <div class="input-group">
-                        <input type="password" name="password" id="senha" class="form-control"
+                        <input type="password" name="password" id="senha" class="form-control" autocomplete="new-password"
                             {% if acao == 'Cadastrar' %}required{% endif %}>
                         <button type="button" class="btn btn-outline-secondary" onclick="toggleSenha()">
                             <i class="bi bi-eye" id="icone-senha"></i>
@@ -139,7 +139,7 @@
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Orunkó</label>
                         <div class="input-group">
-                            <input type="password" name="orunko" id="orunko" class="form-control"
+                            <input type="password" name="orunko" id="orunko" class="form-control" autocomplete="off"
                                 value="{{ filho.orunko|default:'' }}">
                             <button type="button" class="btn btn-outline-secondary" onclick="toggleOrunko()">
                                 <i class="bi bi-eye" id="icone-orunko"></i>
