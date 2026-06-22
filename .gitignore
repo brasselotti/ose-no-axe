@@ -15,6 +15,9 @@ __pycache__/
 # Arquivos de mídia
 media/
 
+# Arquivos estáticos coletados (gerado pelo collectstatic)
+staticfiles/
+
 # VS Code
 .vscode/
 

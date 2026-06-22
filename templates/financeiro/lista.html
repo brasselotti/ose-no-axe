@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Finanças</h2>
     {% if request.user.eh_administrador %}
-    <a href="/financeiro/registrar/" class="btn btn-dark">
+    <a href="/financeiro/registrar/" class="btn btn-terreiro">
         <i class="bi bi-plus-circle"></i> Registrar Movimentação
     </a>
     {% endif %}
@@ -44,7 +44,7 @@
 
 <!-- Tabela de movimentações -->
 <div class="card shadow">
-    <div class="card-header bg-dark text-white">
+    <div class="card-header card-header-terreiro">
         <i class="bi bi-clock-history"></i> Histórico de Movimentações
     </div>
     <div class="card-body">

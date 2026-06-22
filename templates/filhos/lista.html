@@ -5,7 +5,7 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Filhos Cadastrados</h2>
-    <a href="/filhos/cadastrar/" class="btn btn-dark">
+    <a href="/filhos/cadastrar/" class="btn btn-terreiro">
         <i class="bi bi-person-plus"></i> Cadastrar Filho
     </a>
 </div>
@@ -42,13 +42,13 @@
                     <span class="badge bg-secondary">Não iniciado</span>
                     {% endif %}
                     {% if filho.eh_administrador %}
-                    <span class="badge bg-dark">ADM</span>
+                    <span class="badge bg-secondary">ADM</span>
                     {% endif %}
                 </p>
             </div>
             <div class="card-footer d-flex justify-content-between">
                 <small class="text-muted">{{ filho.username }}</small>
-                <a href="/filhos/{{ filho.pk }}/editar/" class="btn btn-sm btn-dark">
+                <a href="/filhos/{{ filho.pk }}/editar/" class="btn btn-sm btn-terreiro">
                     <i class="bi bi-pencil"></i> Editar
                 </a>
             </div>

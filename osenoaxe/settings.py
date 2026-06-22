@@ -168,5 +168,5 @@ SIMPLE_JWT = {
 }
 
 
-STATICFILES_DIRS = []
+STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'

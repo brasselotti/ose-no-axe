@@ -1,3 +1,4 @@
+{% load static %}
 {% extends 'base.html' %}
 
 {% block title %}Login - Ilê Axé Afinká{% endblock %}
@@ -7,8 +8,11 @@
     <div class="col-md-5">
         <div class="card shadow mt-5">
             <div class="card-body p-4">
-                <h4 class="card-title text-center mb-4">
-                    <i class="bi bi-person-lock"></i> Terreiro da Prata
+                <div class="text-center mb-3">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo Ilê Axé Afinká" class="logo-central">
+                </div>
+                <h4 class="card-title text-center mb-1" style="color: var(--verde-escuro);">
+                    Terreiro da Prata
                 </h4>
                 <h6 class="text-center text-muted mb-4">Ilê Axé Afinká</h6>
 
@@ -26,7 +30,7 @@
                     <div class="alert alert-danger">{{ error }}</div>
                     {% endif %}
                     <div class="d-grid mt-4">
-                        <button type="submit" class="btn btn-dark">Entrar</button>
+                        <button type="submit" class="btn btn-terreiro">Entrar</button>
                     </div>
                 </form>
             </div>
