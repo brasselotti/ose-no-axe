@@ -4,7 +4,7 @@
 {% block title %}Início - Ilê Axé Afinká{% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-12 text-center mb-4">
         <img src="{% static 'images/logo.png' %}" alt="Logo Ilê Axé Afinká" class="logo-central">
         <h2 style="color: var(--verde-escuro);">Bem-vindo(a), {{ user.nome|default:user.username }}!</h2>
