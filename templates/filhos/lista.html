@@ -30,7 +30,14 @@
                     </div>
                     <div>
                         <h6 class="mb-0">{{ filho.nome }}</h6>
-                        <small class="text-muted">{{ filho.orixa|default:"Orixá não informado" }}</small>
+                        <small class="text-muted">
+                            {% if filho.filho_iniciado %}
+                                {% if filho.ordem_posto and filho.orixa %}{{ filho.ordem_posto }} de {{ filho.orixa }}
+                                {% elif filho.orixa %}{{ filho.orixa }}
+                                {% elif filho.ordem_posto %}{{ filho.ordem_posto }}
+                                {% else %}Orixá não informado{% endif %}
+                            {% else %}Abian{% endif %}
+                        </small>
                     </div>
                 </div>
                 <p class="mb-1"><i class="bi bi-telephone"></i> {{ filho.telefone|default:"—" }}</p>
