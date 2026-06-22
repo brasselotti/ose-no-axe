@@ -8,7 +8,15 @@
     <div class="col-12 text-center mb-4">
         <img src="{% static 'images/logo.png' %}" alt="Logo Ilê Axé Afinká" class="logo-central">
         <h2 style="color: var(--verde-escuro);">Bem-vindo(a), {{ user.nome|default:user.username }}!</h2>
-        <p class="text-muted">{{ user.orixa|default:"" }}</p>
+        <p class="text-muted">
+            {% if user.ordem_posto and user.orixa %}
+                {{ user.ordem_posto }} de {{ user.orixa }}
+            {% elif user.orixa %}
+                {{ user.orixa }}
+            {% elif user.ordem_posto %}
+                {{ user.ordem_posto }}
+            {% endif %}
+        </p>
     </div>
 
     {% if user.eh_administrador %}
