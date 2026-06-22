@@ -18,7 +18,9 @@ Exibe a página inicial do sistema após o login. Para ADMs, apresenta um painel
 | Mês atual | Data de referência usada nos cálculos (dia 1 do mês corrente) |
 
 ### Para Filho
-Página de boas-vindas sem dados adicionais.
+Página de boas-vindas com saudação personalizada. Abaixo do nome do usuário é exibido:
+- **"Abian"** — para filhos com bori registrado mas ainda não iniciados;
+- **"Ordem/Posto de Orixá"** (ex: "Fomo de Oxum") — para filhos iniciados, combinando os campos `ordem_posto` e `orixa`. Se apenas um dos dois estiver preenchido, somente ele é exibido.
 
 ## URLs
 

@@ -29,7 +29,7 @@ Cria um novo membro no sistema, gerando suas credenciais de acesso (username/sen
 | Campo | Obrigatório | Descrição |
 |---|---|---|
 | `data_nascimento` | Não | Data de nascimento |
-| `data_bori` | Não | Data do Bori |
+| `data_bori` | **Sim** | Data do Bori — obrigatório para ser considerado filho da casa |
 | `filho_iniciado` | Não | Checkbox: se o membro foi iniciado |
 
 ### Dados da iniciação (liberados apenas se `filho_iniciado = True`)
