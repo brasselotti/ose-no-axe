@@ -45,7 +45,6 @@ Sistema de gestão administrativa do Terreiro da Prata (Ilê Axé Afinká).
 | Funcionalidade | Acesso | Arquivo |
 |---|---|---|
 | Login / Logout (HTML) | Público | [autenticacao.md](autenticacao.md) |
-| Obter/Renovar token JWT (API) | Público | [api_token.md](api_token.md) |
 
 ---
 

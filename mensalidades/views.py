@@ -1,49 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from rest_framework import viewsets, permissions
-from rest_framework.decorators import action
-from rest_framework.response import Response
 from .models import Mensalidade, IsentoMes
-from .serializers import MensalidadeSerializer
-from filhos.views import IsAdministrador
-
-
-
-class MensalidadeViewSet(viewsets.ModelViewSet):
-    serializer_class = MensalidadeSerializer
-
-    def get_permissions(self):
-        if self.action in ['update', 'partial_update', 'destroy']:
-            return [IsAdministrador()]
-        return [permissions.IsAuthenticated()]
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.eh_administrador:
-            return Mensalidade.objects.all().order_by('-mes_referencia')
-        return Mensalidade.objects.filter(filho=user).order_by('-mes_referencia')
-
-    def perform_create(self, serializer):
-        user = self.request.user
-        if not user.eh_administrador:
-            serializer.save(filho=user, status='pendente')
-        else:
-            serializer.save()
-
-    @action(detail=True, methods=['post'], permission_classes=[IsAdministrador])
-    def aprovar(self, request, pk=None):
-        mensalidade = self.get_object()
-        mensalidade.status = 'pago'
-        mensalidade.save()
-        return Response({'mensagem': f'Mensalidade de {mensalidade.filho.nome} aprovada com sucesso.'})
-
-    @action(detail=True, methods=['post'], permission_classes=[IsAdministrador])
-    def negar(self, request, pk=None):
-        mensalidade = self.get_object()
-        mensalidade.status = 'recusado'
-        mensalidade.save()
-        return Response({'mensagem': f'Solicitação de {mensalidade.filho.nome} negada.'})
 
 
 # ---- Views HTML ----

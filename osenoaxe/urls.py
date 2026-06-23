@@ -1,26 +1,14 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from filhos.views import FilhoViewSet, filhos_lista, filho_cadastrar, filho_editar, filho_excluir
-from financeiro.views import MovimentacaoViewSet, financeiro_lista, movimentacao_registrar, movimentacao_excluir
-from mensalidades.views import MensalidadeViewSet, mensalidades_lista, mensalidade_registrar, mensalidade_aprovar, mensalidade_negar, mensalidade_excluir, isentar_filho
+from filhos.views import filhos_lista, filho_cadastrar, filho_editar, filho_excluir
+from financeiro.views import financeiro_lista, movimentacao_registrar, movimentacao_excluir
+from mensalidades.views import mensalidades_lista, mensalidade_registrar, mensalidade_aprovar, mensalidade_negar, mensalidade_excluir, isentar_filho
 from osenoaxe.views import login_view, logout_view, home_view, perfil_view
-
-
-
-router = DefaultRouter()
-router.register(r'filhos', FilhoViewSet, basename='filhos')
-router.register(r'movimentacoes', MovimentacaoViewSet, basename='movimentacoes')
-router.register(r'mensalidades', MensalidadeViewSet, basename='mensalidades')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # Views HTML
     path('', redirect_to_login := lambda req: __import__('django.shortcuts', fromlist=['redirect']).redirect('/login/')),

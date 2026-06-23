@@ -1,40 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from rest_framework import viewsets, permissions
-from rest_framework.exceptions import PermissionDenied
 from .models import Filho
-from .serializers import FilhoSerializer, FilhoDetalheSerializer
-
-
-class IsAdministrador(permissions.BasePermission):
-    def has_permission(self, request, view):
-        return bool(request.user and request.user.is_authenticated and request.user.eh_administrador)
-
-
-class FilhoViewSet(viewsets.ModelViewSet):
-    queryset = Filho.objects.all()
-
-    def get_permissions(self):
-        if self.action in ['list', 'create', 'destroy']:
-            return [IsAdministrador()]
-        return [permissions.IsAuthenticated()]
-
-    def get_serializer_class(self):
-        user = self.request.user
-        obj_pk = self.kwargs.get('pk')
-        if user.eh_administrador:
-            return FilhoDetalheSerializer
-        if obj_pk and str(user.pk) == str(obj_pk):
-            return FilhoDetalheSerializer
-        return FilhoSerializer
-
-    def get_object(self):
-        obj = super().get_object()
-        user = self.request.user
-        if not user.eh_administrador and obj.pk != user.pk:
-            raise PermissionDenied("Você não tem permissão para acessar o cadastro de outro filho.")
-        return obj
 
 
 # ---- Views HTML ----

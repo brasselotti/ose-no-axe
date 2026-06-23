@@ -2,30 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Sum
-from rest_framework import viewsets, permissions
-from rest_framework.decorators import action
-from rest_framework.response import Response
 from .models import Movimentacao
-from .serializers import MovimentacaoSerializer
-from filhos.views import IsAdministrador
-
-
-class MovimentacaoViewSet(viewsets.ModelViewSet):
-    queryset = Movimentacao.objects.all().order_by('-data')
-
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
-            return [IsAdministrador()]
-        return [permissions.IsAuthenticated()]
-
-    def get_serializer_class(self):
-        return MovimentacaoSerializer
-
-    @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
-    def saldo(self, request):
-        entradas = Movimentacao.objects.filter(tipo='entrada').aggregate(total=Sum('valor'))['total'] or 0
-        saidas = Movimentacao.objects.filter(tipo='saida').aggregate(total=Sum('valor'))['total'] or 0
-        return Response({'entradas': entradas, 'saidas': saidas, 'saldo': entradas - saidas})
 
 
 # ---- Views HTML ----
