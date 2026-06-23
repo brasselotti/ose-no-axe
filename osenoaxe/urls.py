@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 from filhos.views import filhos_lista, filho_cadastrar, filho_editar, filho_excluir
 from financeiro.views import financeiro_lista, movimentacao_registrar, movimentacao_excluir
 from mensalidades.views import mensalidades_lista, mensalidade_registrar, mensalidade_aprovar, mensalidade_negar, mensalidade_excluir, isentar_filho
@@ -11,7 +12,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Views HTML
-    path('', redirect_to_login := lambda req: __import__('django.shortcuts', fromlist=['redirect']).redirect('/login/')),
+    path('', RedirectView.as_view(url='/login/')),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('home/', home_view, name='home'),
