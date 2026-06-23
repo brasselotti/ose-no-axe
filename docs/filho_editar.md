@@ -23,31 +23,11 @@ Os mesmos do cadastro, com exceção de `username` (não alterável por esta vie
 
 ## URLs
 
-### Interface HTML
 ```
 GET  /filhos/<pk>/editar/   → exibe formulário preenchido
 POST /filhos/<pk>/editar/   → salva as alterações
 ```
 
-### API REST
-```
-PUT   /api/filhos/<pk>/
-PATCH /api/filhos/<pk>/
-```
-> ADM recebe e envia `FilhoDetalheSerializer`. Filho autenticado recebe `FilhoDetalheSerializer` apenas para o próprio perfil; para outros perfis recebe `FilhoSerializer` (dados reduzidos) e não tem permissão de editar.
-
 ## Exemplo de uso
 
-**HTML:** Filho acessa `/filhos/5/editar/`, atualiza seu telefone e salva.
-
-**API (atualização parcial):**
-```http
-PATCH /api/filhos/5/
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "telefone": "84977771111",
-  "cidade": "Macaíba"
-}
-```
+Filho acessa `/filhos/5/editar/`, atualiza seu telefone e salva.

@@ -18,36 +18,10 @@ Exibe a lista completa de todos os membros (filhos de santo) cadastrados no sist
 
 ## URLs
 
-### Interface HTML
 ```
 GET /filhos/
 ```
 
-### API REST
-```
-GET /api/filhos/
-```
-> Requer autenticação via JWT. Retorna o `FilhoDetalheSerializer` para ADM.
-
 ## Exemplo de uso
 
-**HTML:** ADM acessa `/filhos/` e visualiza a tabela com todos os membros.
-
-**API:**
-```http
-GET /api/filhos/
-Authorization: Bearer <token>
-```
-Resposta:
-```json
-[
-  {
-    "id": 1,
-    "nome": "Fabiano Brasselotti",
-    "username": "fabiano",
-    "telefone": "84999990000",
-    "orixa": "Oxum",
-    "eh_administrador": true
-  }
-]
-```
+ADM acessa `/filhos/` e visualiza a tabela com todos os membros.

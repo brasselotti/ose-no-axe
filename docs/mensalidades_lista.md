@@ -19,41 +19,15 @@ Exibe as mensalidades separadas em três grupos: **Pendentes**, **Pagas** e **Re
 
 ## URLs
 
-### Interface HTML
 ```
 GET /mensalidades/
 GET /mensalidades/?filho=<nome>   → filtro por nome (ADM apenas)
 ```
 
-### API REST
-```
-GET /api/mensalidades/
-```
-> ADM recebe todas. Filho recebe apenas as próprias. Ordenadas por `-mes_referencia`.
-
 ## Exemplo de uso
 
-**HTML (ADM filtrando por nome):**
+ADM filtrando por nome:
 ```
 /mensalidades/?filho=Maria
 ```
 Retorna as mensalidades de todos os membros cujo nome contém "Maria".
-
-**API:**
-```http
-GET /api/mensalidades/
-Authorization: Bearer <token>
-```
-Resposta (filho comum):
-```json
-[
-  {
-    "id": 10,
-    "filho": 5,
-    "mes_referencia": "2025-06-01",
-    "valor": "50.00",
-    "status": "pendente",
-    "data_pagamento": "2025-06-05"
-  }
-]
-```

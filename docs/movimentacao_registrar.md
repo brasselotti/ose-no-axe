@@ -17,48 +17,15 @@ Cria um novo lançamento financeiro no sistema, podendo ser uma entrada (doaçã
 
 ## URLs
 
-### Interface HTML
 ```
 GET  /financeiro/registrar/   → exibe o formulário
 POST /financeiro/registrar/   → salva a movimentação
 ```
 
-### API REST
-```
-POST /api/movimentacoes/
-```
-> Requer autenticação JWT com perfil ADM.
-
 ## Exemplo de uso
 
-**HTML:** ADM acessa `/financeiro/registrar/` e registra uma doação:
+ADM acessa `/financeiro/registrar/` e registra uma doação:
 - Descrição: `Doação de ogã`
 - Valor: `200.00`
 - Tipo: `entrada`
 - Data: `2025-06-10`
-
-**API:**
-```http
-POST /api/movimentacoes/
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "descricao": "Compra de velas para ritual",
-  "valor": "85.50",
-  "tipo": "saida",
-  "data": "2025-06-08",
-  "observacao": "Comprado no mercado central"
-}
-```
-Resposta: `201 Created`
-```json
-{
-  "id": 15,
-  "descricao": "Compra de velas para ritual",
-  "valor": "85.50",
-  "tipo": "saida",
-  "data": "2025-06-08",
-  "observacao": "Comprado no mercado central"
-}
-```

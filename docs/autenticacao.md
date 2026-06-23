@@ -40,4 +40,3 @@ Usuário acessa `/logout/` (geralmente via botão no menu) e é redirecionado pa
 
 ## Observações
 - Todas as rotas protegidas redirecionam para `/login/` caso o usuário não esteja autenticado (`@login_required`).
-- A sessão é baseada em cookies do Django (não em JWT — que é exclusivo para a API REST).

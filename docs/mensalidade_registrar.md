@@ -23,22 +23,13 @@ Registra um ou mais pagamentos de mensalidade para um intervalo de meses. O valo
 
 ## URLs
 
-### Interface HTML
 ```
 GET  /mensalidades/registrar/   → exibe o formulário
 POST /mensalidades/registrar/   → processa o registro
 ```
 
-### API REST
-```
-POST /api/mensalidades/
-```
-> Filho autenticado: `filho` é ignorado e forçado para o próprio usuário, `status` é forçado para `pendente`.
-> ADM: pode definir `filho` e `status` livremente.
-
 ## Exemplo de uso
 
-**HTML (Filho registrando pagamento de 2 meses):**
 O filho acessa `/mensalidades/registrar/`, informa:
 - Mês início: `2025-05`
 - Mês fim: `2025-06`
@@ -46,16 +37,3 @@ O filho acessa `/mensalidades/registrar/`, informa:
 - Comprovante: `comprovante_maio_junho.jpg`
 
 Resultado: 2 mensalidades criadas (maio e junho) com valor R$ 50,00 cada, status `pendente`.
-
-**API:**
-```http
-POST /api/mensalidades/
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "mes_referencia": "2025-06-01",
-  "valor": "50.00",
-  "data_pagamento": "2025-06-03"
-}
-```

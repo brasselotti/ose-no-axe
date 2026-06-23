@@ -11,25 +11,11 @@ Não há formulário. A exclusão é realizada com base no `pk` da mensalidade p
 
 ## URLs
 
-### Interface HTML
 ```
 GET /mensalidades/<pk>/excluir/
 ```
 > Redireciona para `/mensalidades/` após a ação.
 
-### API REST
-```
-DELETE /api/mensalidades/<pk>/
-```
-> Requer autenticação JWT com perfil ADM.
-
 ## Exemplo de uso
 
-**HTML:** ADM acessa `/mensalidades/12/excluir/` para remover um lançamento duplicado.
-
-**API:**
-```http
-DELETE /api/mensalidades/12/
-Authorization: Bearer <token>
-```
-Resposta: `204 No Content`
+ADM acessa `/mensalidades/12/excluir/` para remover um lançamento duplicado.

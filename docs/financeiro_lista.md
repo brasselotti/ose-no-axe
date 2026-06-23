@@ -24,37 +24,10 @@ Exibe todas as movimentações financeiras do terreiro (entradas e saídas) em o
 
 ## URLs
 
-### Interface HTML
 ```
 GET /financeiro/
 ```
 
-### API REST — listagem
-```
-GET /api/movimentacoes/
-```
-> Ordenado por `-data`. Requer autenticação JWT.
-
-### API REST — saldo
-```
-GET /api/movimentacoes/saldo/
-```
-> Requer autenticação JWT. Retorna totais e saldo calculado.
-
 ## Exemplo de uso
 
-**HTML:** Qualquer membro logado acessa `/financeiro/` e visualiza o histórico de movimentações e o saldo atual do terreiro.
-
-**API — saldo:**
-```http
-GET /api/movimentacoes/saldo/
-Authorization: Bearer <token>
-```
-Resposta:
-```json
-{
-  "entradas": "1500.00",
-  "saidas": "320.50",
-  "saldo": "1179.50"
-}
-```
+Qualquer membro logado acessa `/financeiro/` e visualiza o histórico de movimentações e o saldo atual do terreiro.

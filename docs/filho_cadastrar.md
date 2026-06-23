@@ -45,35 +45,11 @@ Cria um novo membro no sistema, gerando suas credenciais de acesso (username/sen
 
 ## URLs
 
-### Interface HTML
 ```
 GET  /filhos/cadastrar/   → exibe o formulário
 POST /filhos/cadastrar/   → processa o cadastro
 ```
 
-### API REST
-```
-POST /api/filhos/
-```
-> Requer autenticação JWT com perfil ADM.
-
 ## Exemplo de uso
 
-**HTML:** ADM acessa `/filhos/cadastrar/`, preenche o formulário e submete. Após o cadastro bem-sucedido, é redirecionado para `/filhos/`.
-
-**API:**
-```http
-POST /api/filhos/
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "username": "maria_oxum",
-  "password": "senha123",
-  "nome": "Maria de Oxum",
-  "telefone": "84988880000",
-  "filho_iniciado": true,
-  "orixa": "Oxum",
-  "orunko": "Omilayó"
-}
-```
+ADM acessa `/filhos/cadastrar/`, preenche o formulário e submete. Após o cadastro bem-sucedido, é redirecionado para `/filhos/`.

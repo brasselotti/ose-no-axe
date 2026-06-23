@@ -15,30 +15,11 @@ Não há formulário. A aprovação é feita com base no `pk` da mensalidade pas
 
 ## URLs
 
-### Interface HTML
 ```
 GET /mensalidades/<pk>/aprovar/
 ```
 > Redireciona para `/mensalidades/` após a ação.
 
-### API REST
-```
-POST /api/mensalidades/<pk>/aprovar/
-```
-> Requer autenticação JWT com perfil ADM.
-
 ## Exemplo de uso
 
-**HTML:** ADM visualiza a listagem de mensalidades pendentes e clica em "Aprovar" na mensalidade de ID 10. O status é atualizado para `pago` e o ADM é redirecionado para a listagem com mensagem de confirmação.
-
-**API:**
-```http
-POST /api/mensalidades/10/aprovar/
-Authorization: Bearer <token>
-```
-Resposta:
-```json
-{
-  "mensagem": "Mensalidade de Maria de Oxum aprovada com sucesso."
-}
-```
+ADM visualiza a listagem de mensalidades pendentes e clica em "Aprovar" na mensalidade de ID 10. O status é atualizado para `pago` e o ADM é redirecionado para a listagem com mensagem de confirmação.
