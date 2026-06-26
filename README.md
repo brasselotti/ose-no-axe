@@ -101,7 +101,6 @@ Há dois tipos de perfil: **ADM**, com acesso integral às funcionalidades; e **
 | Back-end | Python 3.10 / Django 5.2 |
 | Front-end | Bootstrap 5.3 / Bootstrap Icons |
 | Banco de dados | PostgreSQL |
-| API REST | Django REST Framework + SimpleJWT |
 | Arquivos estáticos | WhiteNoise |
 | Deploy | Railway |
 | Versionamento | GitHub |
