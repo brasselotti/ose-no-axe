@@ -114,7 +114,7 @@ def mensalidade_excluir(request, pk):
     return redirect('/mensalidades/')
 
 @login_required(login_url='/login/')
-def isentar_filho(request, filho_id):
+def isentar_filho(request, pk):
     if not request.user.eh_administrador:
         messages.error(request, 'Acesso restrito a administradores.')
         return redirect('/home/')
@@ -124,7 +124,7 @@ def isentar_filho(request, filho_id):
 
     hoje = timezone.now().date()
     mes_atual = hoje.replace(day=1)
-    filho = get_object_or_404(Filho, pk=filho_id)
+    filho = get_object_or_404(Filho, pk=pk)
     motivo = request.POST.get('motivo', '')
 
     IsentoMes.objects.get_or_create(

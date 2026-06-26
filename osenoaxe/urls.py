@@ -30,7 +30,7 @@ urlpatterns = [
     path('mensalidades/<int:pk>/aprovar/', mensalidade_aprovar, name='mensalidade_aprovar'),
     path('mensalidades/<int:pk>/negar/', mensalidade_negar, name='mensalidade_negar'),
     path('mensalidades/<int:pk>/excluir/', mensalidade_excluir, name='mensalidade_excluir'),
-    path('mensalidades/isentar/<int:filho_id>/', isentar_filho, name='isentar_filho'),
+    path('mensalidades/isentar/<int:pk>/', isentar_filho, name='isentar_filho'),
 
 
     # Rotas de Financeiro

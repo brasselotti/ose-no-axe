@@ -11,12 +11,12 @@ Registra uma isenção de mensalidade para um membro no mês corrente. O membro 
 |---|---|---|
 | `motivo` | Não | Texto livre justificando a isenção |
 
-O mês de referência é calculado automaticamente como o dia 1 do mês atual no servidor. O membro é identificado pelo `filho_id` passado na URL.
+O mês de referência é calculado automaticamente como o dia 1 do mês atual no servidor. O membro é identificado pelo `pk` passado na URL.
 
 ## URLs
 
 ```
-POST /mensalidades/isentar/<filho_id>/
+POST /mensalidades/isentar/<pk>/
 ```
 > Redireciona para `/home/` após a ação.
 
