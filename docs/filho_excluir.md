@@ -14,7 +14,6 @@ Não há formulário. A exclusão é realizada com base no `pk` (ID) do membro p
 ```
 GET /filhos/<pk>/excluir/
 ```
-> A exclusão ocorre diretamente ao acessar a URL (sem confirmação via formulário). Recomenda-se implementar um modal de confirmação no template.
 
 ## Exemplo de uso
 

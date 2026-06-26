@@ -168,10 +168,9 @@
 
     <div class="d-flex justify-content-between mb-5">
         {% if acao == 'Editar' and request.user.eh_administrador %}
-        <a href="/filhos/{{ filho.pk }}/excluir/" class="btn btn-danger"
-            onclick="return confirm('Tem certeza que deseja excluir este filho?')">
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir">
             <i class="bi bi-trash"></i> Excluir Filho
-        </a>
+        </button>
         {% else %}
         <div></div>
         {% endif %}
@@ -180,6 +179,26 @@
         </button>
     </div>
 </form>
+{% if acao == 'Editar' and request.user.eh_administrador %}
+<div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="modalExcluirLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalExcluirLabel">Confirmar exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir <strong>{{ filho.nome }}</strong>?</p>
+                <p class="text-danger mb-0"><small>Esta ação é irreversível. Todas as mensalidades vinculadas a este membro também serão excluídas.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="/filhos/{{ filho.pk }}/excluir/" class="btn btn-danger">Excluir</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block extra_js %}
