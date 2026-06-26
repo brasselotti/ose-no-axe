@@ -22,6 +22,7 @@ Sistema de gestão administrativa do Terreiro da Prata (Ilê Axé Afinká).
 | Aprovar mensalidade | ADM | [mensalidade_aprovar.md](mensalidade_aprovar.md) |
 | Negar mensalidade | ADM | [mensalidade_negar.md](mensalidade_negar.md) |
 | Excluir mensalidade | ADM | [mensalidade_excluir.md](mensalidade_excluir.md) |
+| Isentar filho do mês | ADM | [mensalidade_isentar.md](mensalidade_isentar.md) |
 
 ### Financeiro
 | Funcionalidade | Acesso | Arquivo |
@@ -29,11 +30,6 @@ Sistema de gestão administrativa do Terreiro da Prata (Ilê Axé Afinká).
 | Listar movimentações e saldo | Todos os usuários logados | [financeiro_lista.md](financeiro_lista.md) |
 | Registrar movimentação | ADM | [movimentacao_registrar.md](movimentacao_registrar.md) |
 | Excluir movimentação | ADM | [movimentacao_excluir.md](movimentacao_excluir.md) |
-
-### Mensalidades (continuação)
-| Funcionalidade | Acesso | Arquivo |
-|---|---|---|
-| Isentar filho do mês | ADM | [mensalidade_isentar.md](mensalidade_isentar.md) |
 
 ### Painel / Perfil
 | Funcionalidade | Acesso | Arquivo |
