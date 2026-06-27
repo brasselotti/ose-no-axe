@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login - Ilê Axé Afinká{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow mt-5">
+            <div class="card-body p-4">
+                <div class="text-center mb-3">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo Ilê Axé Afinká" class="logo-central">
+                </div>
+                <h4 class="card-title text-center mb-1" style="color: var(--verde-escuro);">
+                    Terreiro da Prata
+                </h4>
+                <h6 class="text-center text-muted mb-4">Ilê Axé Afinká</h6>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Usuário</label>
+                        <input type="text" name="username" class="form-control" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Senha</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    {% if error %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                    {% endif %}
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-terreiro">Entrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

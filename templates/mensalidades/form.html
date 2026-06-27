@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrar Pagamento - Ilê Axé Afinká{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Registrar Pagamento de Mensalidade</h2>
+    <a href="/mensalidades/" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                {% if filhos %}
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Filho</label>
+                    <select name="filho" class="form-select" required>
+                        <option value="">Selecione...</option>
+                        {% for filho in filhos %}
+                        <option value="{{ filho.pk }}">{{ filho.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% else %}
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Filho</label>
+                    <input type="text" class="form-control" value="{{ request.user.nome }}" disabled>
+                </div>
+                {% endif %}
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Mês Inicial</label>
+                    <input type="month" name="mes_inicio" class="form-control" required>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Mês Final</label>
+                    <input type="month" name="mes_fim" class="form-control" required>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Valor Pago (R$)</label>
+                    <input type="text" name="valor" id="valor" class="form-control" placeholder="R$ 0,00" required>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Data do Pagamento</label>
+                    <input type="date" name="data_pagamento" class="form-control" required>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Anexar Comprovante</label>
+                    <input type="file" name="comprovante" class="form-control" accept="image/*,.pdf">
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-terreiro">
+                    <i class="bi bi-check-lg"></i> Registrar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('valor').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+        value = (parseInt(value) / 100).toFixed(2);
+        e.target.value = 'R$ ' + value.replace('.', ',');
+    });
+
+    document.querySelector('form').addEventListener('submit', function () {
+        const campo = document.getElementById('valor');
+        const limpo = campo.value.replace('R$ ', '').replace(',', '.');
+        campo.value = limpo;
+    });
+</script>
+{% endblock %}

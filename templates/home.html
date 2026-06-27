@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Início - Ilê Axé Afinká{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 text-center mb-4">
+        <img src="{% static 'images/logo.png' %}" alt="Logo Ilê Axé Afinká" class="logo-central">
+        <h2 style="color: var(--verde-escuro);">Bem-vindo(a), {{ user.nome|default:user.username }}!</h2>
+        <p class="text-muted">
+            {% if user.filho_iniciado %}
+                {% if user.ordem_posto and user.orixa %}
+                    {{ user.ordem_posto }} de {{ user.orixa }}
+                {% elif user.orixa %}
+                    {{ user.orixa }}
+                {% elif user.ordem_posto %}
+                    {{ user.ordem_posto }}
+                {% endif %}
+            {% else %}
+                Abian
+            {% endif %}
+        </p>
+    </div>
+
+    {% if user.eh_administrador %}
+    <div class="col-md-4 mb-3">
+        <div class="card shadow h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-people fs-1 icone-home"></i>
+                <h5 class="card-title mt-2">Filhos</h5>
+                <p class="card-text text-muted">Gerencie os membros do terreiro</p>
+                <a href="/filhos/" class="btn btn-terreiro">Acessar</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="col-md-4 mb-3">
+        <div class="card shadow h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-cash-coin fs-1 icone-home"></i>
+                <h5 class="card-title mt-2">Mensalidades</h5>
+                <p class="card-text text-muted">Acompanhe seus pagamentos</p>
+                <a href="/mensalidades/" class="btn btn-terreiro">Acessar</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card shadow h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-graph-up fs-1 icone-home"></i>
+                <h5 class="card-title mt-2">Finanças</h5>
+                <p class="card-text text-muted">Visualize as movimentações</p>
+                <a href="/financeiro/" class="btn btn-terreiro">Acessar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if user.eh_administrador %}
+<!-- Lista de inadimplentes -->
+<div class="card shadow mt-4">
+    <div class="card-header card-header-terreiro d-flex justify-content-between align-items-center">
+        <span>
+            <i class="bi bi-exclamation-triangle"></i>
+            Filhos sem pagamento em {{ mes_atual|date:"m/Y" }}
+        </span>
+        <span class="badge bg-warning text-dark">{{ total_inadimplentes }}</span>
+    </div>
+    <div class="card-body">
+        {% if inadimplentes %}
+        <ul class="list-group list-group-flush">
+            {% for filho in inadimplentes %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="bi bi-person"></i> {{ filho.nome }}
+                    <small class="text-muted ms-2">{{ filho.orixa|default:"" }}</small>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="/mensalidades/?filho={{ filho.nome }}" class="btn btn-sm btn-outline-terreiro">
+                        <i class="bi bi-search"></i> Ver mensalidades
+                    </a>
+                    <button type="button" class="btn btn-sm btn-outline-warning"
+                        data-bs-toggle="modal" data-bs-target="#modalIsentar{{ filho.pk }}">
+                        <i class="bi bi-x-circle"></i> Desconsiderar
+                    </button>
+                </div>
+            </li>
+
+            <!-- Modal de confirmação -->
+            <div class="modal fade" id="modalIsentar{{ filho.pk }}" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Desconsiderar {{ filho.nome }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form method="post" action="/mensalidades/isentar/{{ filho.pk }}/">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <p class="text-muted">Este filho será desconsiderado no relatório de inadimplentes para <strong>{{ mes_atual|date:"m/Y" }}</strong>.</p>
+                                <div class="mb-3">
+                                    <label class="form-label">Motivo <small class="text-muted">(opcional)</small></label>
+                                    <textarea name="motivo" class="form-control" rows="3"
+                                        placeholder="Ex: Filho informou dificuldades financeiras temporárias..."></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-warning">Confirmar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted text-center mb-0">
+            <i class="bi bi-check-circle text-success"></i> Todos os filhos estão em dia!
+        </p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Lista de isentos -->
+{% if isentos %}
+<div class="card shadow mt-4">
+    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+        <span>
+            <i class="bi bi-shield-check"></i>
+            Filhos Desconsiderados em {{ mes_atual|date:"m/Y" }}
+        </span>
+        <span class="badge bg-light text-dark">{{ total_isentos }}</span>
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            {% for isento in isentos %}
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <i class="bi bi-person"></i> <strong>{{ isento.filho.nome }}</strong>
+                        {% if isento.motivo %}
+                        <br><small class="text-muted"><i class="bi bi-chat-left-text"></i> {{ isento.motivo }}</small>
+                        {% else %}
+                        <br><small class="text-muted">Sem motivo informado.</small>
+                        {% endif %}
+                    </div>
+                    <small class="text-muted">por {{ isento.criado_por.nome|default:isento.criado_por.username }}</small>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+
+{% endif %}
+{% endblock %}

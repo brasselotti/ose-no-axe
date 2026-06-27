@@ -1,0 +1,128 @@
+:root {
+    --verde-escuro: #2D6A4F;
+    --verde-medio: #52B788;
+    --verde-claro: #74C69D;
+    --marrom: #8B4513;
+    --cobre: #C67B4F;
+    --creme: #F8F5F0;
+    --texto-escuro: #3A2C1A;
+}
+
+body {
+    background-color: var(--creme);
+    color: var(--texto-escuro);
+}
+
+/* Navbar */
+.navbar-terreiro {
+    background-color: var(--verde-escuro) !important;
+}
+
+.navbar-terreiro .navbar-brand,
+.navbar-terreiro .nav-link,
+.navbar-terreiro .navbar-toggler-icon {
+    color: #fff !important;
+}
+
+.navbar-terreiro .nav-link:hover {
+    color: var(--verde-claro) !important;
+}
+
+.navbar-terreiro .dropdown-menu {
+    background-color: var(--verde-escuro);
+    border: 1px solid var(--verde-medio);
+}
+
+.navbar-terreiro .dropdown-item {
+    color: #fff;
+}
+
+.navbar-terreiro .dropdown-item:hover {
+    background-color: var(--verde-medio);
+    color: #fff;
+}
+
+.navbar-terreiro .dropdown-divider {
+    border-color: var(--verde-medio);
+}
+
+/* Footer */
+.footer-terreiro {
+    background-color: var(--verde-escuro) !important;
+    color: #fff;
+}
+
+/* Botões */
+.btn-terreiro {
+    background-color: var(--marrom);
+    border-color: var(--marrom);
+    color: #fff;
+}
+
+.btn-terreiro:hover {
+    background-color: #7a3b10;
+    border-color: #7a3b10;
+    color: #fff;
+}
+
+.btn-outline-terreiro {
+    border-color: var(--marrom);
+    color: var(--marrom);
+}
+
+.btn-outline-terreiro:hover {
+    background-color: var(--marrom);
+    color: #fff;
+}
+
+/* Cards */
+.card {
+    border: none;
+    box-shadow: 0 2px 8px rgba(45, 106, 79, 0.12);
+}
+
+.card-header-terreiro {
+    background-color: var(--verde-escuro);
+    color: #fff;
+}
+
+/* Logo na navbar */
+.navbar-logo {
+    height: 38px;
+    width: auto;
+    margin-right: 8px;
+}
+
+/* Logo na login / home */
+.logo-central {
+    max-width: 140px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+/* Ícones de destaque na home */
+.icone-home {
+    color: var(--marrom);
+}
+
+/* Links */
+a {
+    color: var(--marrom);
+}
+
+a:hover {
+    color: var(--cobre);
+}
+
+/* Form controls focus */
+.form-control:focus {
+    border-color: var(--verde-medio);
+    box-shadow: 0 0 0 0.2rem rgba(82, 183, 136, 0.25);
+}
+
+/* Badge personalizado */
+.badge-terreiro {
+    background-color: var(--cobre);
+    color: #fff;
+}
