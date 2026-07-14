@@ -138,3 +138,14 @@ def isentar_filho(request, pk):
 
     messages.success(request, f'{filho.nome} desconsiderado para o mês atual.')
     return redirect('/home/')
+
+@login_required(login_url='/login/')
+def isentar_remover(request, isento_id):
+    if not request.user.eh_administrador:
+        messages.error(request, 'Acesso restrito a administradores.')
+        return redirect('/home/')
+    from .models import IsentoMes
+    isento = get_object_or_404(IsentoMes, pk=isento_id)
+    isento.delete()
+    messages.success(request, 'Isenção removida com sucesso.')
+    return redirect('/home/')

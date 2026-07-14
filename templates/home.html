@@ -148,7 +148,14 @@
                         <br><small class="text-muted">Sem motivo informado.</small>
                         {% endif %}
                     </div>
-                    <small class="text-muted">por {% if isento.criado_por %}{{ isento.criado_por.nome|default:isento.criado_por.username }}{% else %}ADM{% endif %}</small>
+                    <div class="d-flex gap-2 align-items-center">
+                        <small class="text-muted">por {% if isento.criado_por %}{{ isento.criado_por.nome|default:isento.criado_por.username }}{% else %}ADM{% endif %}</small>
+                        <a href="/mensalidades/isentar/{{ isento.pk }}/remover/"
+                            class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Tem certeza que deseja remover esta isenção?')">
+                            <i class="bi bi-x-circle"></i>
+                        </a>
+                    </div>
                 </div>
             </li>
             {% endfor %}
