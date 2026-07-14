@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.views.generic import RedirectView
 from filhos.views import filhos_lista, filho_cadastrar, filho_editar, filho_excluir
 from financeiro.views import financeiro_lista, movimentacao_registrar, movimentacao_excluir
-from mensalidades.views import mensalidades_lista, mensalidade_registrar, mensalidade_aprovar, mensalidade_negar, mensalidade_excluir, isentar_filho
+from mensalidades.views import mensalidades_lista, mensalidade_registrar, mensalidade_aprovar, mensalidade_negar, mensalidade_excluir, isentar_filho, isentar_remover
 from osenoaxe.views import login_view, logout_view, home_view, perfil_view
 
 urlpatterns = [
@@ -31,6 +31,7 @@ urlpatterns = [
     path('mensalidades/<int:pk>/negar/', mensalidade_negar, name='mensalidade_negar'),
     path('mensalidades/<int:pk>/excluir/', mensalidade_excluir, name='mensalidade_excluir'),
     path('mensalidades/isentar/<int:pk>/', isentar_filho, name='isentar_filho'),
+    path('mensalidades/isentar/<int:isento_id>/remover/', isentar_remover, name='isentar_remover'),
 
 
     # Rotas de Financeiro
