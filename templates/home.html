@@ -148,7 +148,7 @@
                         <br><small class="text-muted">Sem motivo informado.</small>
                         {% endif %}
                     </div>
-                    <small class="text-muted">por {{ isento.criado_por.nome|default:isento.criado_por.username }}</small>
+                    <small class="text-muted">por {% if isento.criado_por %}{{ isento.criado_por.nome|default:isento.criado_por.username }}{% else %}ADM{% endif %}</small>
                 </div>
             </li>
             {% endfor %}
